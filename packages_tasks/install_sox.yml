@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: sox is installed"
+  ansible.builtin.package:
+    name: "sox"
+    state: present

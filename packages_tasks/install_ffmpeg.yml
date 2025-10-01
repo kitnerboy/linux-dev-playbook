@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: ffmpeg is installed"
+  ansible.builtin.package:
+    name: "ffmpeg"
+    state: present

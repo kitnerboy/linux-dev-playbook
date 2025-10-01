@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: flameshot is installed"
+  ansible.builtin.package:
+    name: "flameshot"
+    state: present

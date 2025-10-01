@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: ripgrep is installed"
+  ansible.builtin.package:
+    name: "ripgrep"
+    state: present

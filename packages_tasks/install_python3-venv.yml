@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: python3-venv is installed"
+  ansible.builtin.package:
+    name: "python3-venv"
+    state: present

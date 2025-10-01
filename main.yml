@@ -1,0 +1,16 @@
+---
+- name: Configure Linux dev machine for my usage
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install packages from packages_tasks directory with default package manager
+      # 1. Use lookup('fileglob', ...) to generate a list of file paths.
+      #    The file paths will be relative to the playbook location.
+      # 2. Loop over that list.
+      # 3. For each file (item), include it as a task list.
+      ansible.builtin.include_tasks: "{{ item }}"
+      loop: "{{ lookup('ansible.builtin.fileglob', 'packagestasks/*.yml', wantlist=True) }}"
+      loop_control:
+        # Optional: Makes the output cleaner by showing the file name being included
+        label: "Including {{ item | ansible.builtin.basename }}"

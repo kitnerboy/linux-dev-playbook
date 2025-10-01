@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: tio is installed"
+  ansible.builtin.package:
+    name: "tio"
+    state: present

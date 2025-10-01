@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: radare2 is installed"
+  ansible.builtin.package:
+    name: "radare2"
+    state: present

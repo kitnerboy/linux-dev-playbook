@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: guake is installed"
+  ansible.builtin.package:
+    name: "guake"
+    state: present

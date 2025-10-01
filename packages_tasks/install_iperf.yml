@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: iperf is installed"
+  ansible.builtin.package:
+    name: "iperf"
+    state: present

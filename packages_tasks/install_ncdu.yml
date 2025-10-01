@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: ncdu is installed"
+  ansible.builtin.package:
+    name: "ncdu"
+    state: present

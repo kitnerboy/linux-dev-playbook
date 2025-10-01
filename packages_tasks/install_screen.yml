@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: screen is installed"
+  ansible.builtin.package:
+    name: "screen"
+    state: present

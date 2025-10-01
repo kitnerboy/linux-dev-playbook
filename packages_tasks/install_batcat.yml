@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: batcat is installed"
+  ansible.builtin.package:
+    name: "batcat"
+    state: present
