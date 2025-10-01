@@ -3,6 +3,10 @@
   hosts: all
   become: yes
 
+  vars_files:
+    # Load the variables at the play level
+    - vars/sublime3_vars.yml
+
   tasks:
     - name: Install packages from packmgr_packages directory with default package manager
       ansible.builtin.include_tasks: "{{ item }}"
@@ -31,9 +35,6 @@
         # Optional: Makes the output cleaner by showing the file name being included
         label: "Including {{ item | ansible.builtin.basename }}"
 
-    - name: Install packages with custom way of installing
-      ansible.builtin.include_tasks: "{{ item }}"
-      loop: "{{ lookup('ansible.builtin.fileglob', 'other_packages/*.yml', wantlist=True) }}"
-      loop_control:
-        # Optional: Makes the output cleaner by showing the file name being included
-        label: "Including {{ item | ansible.builtin.basename }}"
+    - name: Run version-specific Sublime Text 3 installation tasks
+      # Import the tasks list. Variables are already available via vars_files.
+      ansible.builtin.import_tasks: other_packages/sublime3.yml

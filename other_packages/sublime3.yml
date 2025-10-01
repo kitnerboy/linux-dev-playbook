@@ -1,62 +1,45 @@
+# tasks/sublime3_install.yml (Correct structure for inclusion)
 ---
-- name: Install Sublime Text 3 (Build 3211) based on OS family
-  hosts: all
-  become: yes
+# --------------------------------------------------------------------------
+# 1. DEBIAN / UBUNTU PATH (Installs .deb file)
+# --------------------------------------------------------------------------
+- name: Download .deb package (Debian/Ubuntu)
+  ansible.builtin.get_url:
+    url: "{{ sublime_text_3_urls.deb_url }}"
+    dest: "{{ sublime_text_3_urls.deb_dest }}"
+    validate_certs: no
+  when: ansible_os_family == 'Debian'
 
-  vars:
-    # URL and file names for Debian/Ubuntu (DEB)
-    deb_url: "https://download.sublimetext.com/sublime-text_build-3211_amd64.deb"
-    deb_dest: "/tmp/sublime-text-3211.deb"
-    
-    # URL and file names for RedHat/Fedora (RPM)
-    rpm_url: "https://download.sublimetext.com/sublime-text-3.2.2-1.x86_64.rpm"
-    rpm_dest: "/tmp/sublime-text-3211.rpm"
+- name: Install Sublime Text 3 from local .deb file
+  ansible.builtin.apt:
+    deb: "{{ sublime_text_3_urls.deb_dest }}"
+    state: present
+  when: ansible_os_family == 'Debian'
 
-  tasks:
-    
-    # --------------------------------------------------------------------------
-    # 1. DEBIAN / UBUNTU PATH (Installs .deb file)
-    # --------------------------------------------------------------------------
-    - name: Download .deb package (Debian/Ubuntu)
-      ansible.builtin.get_url:
-        url: "{{ deb_url }}"
-        dest: "{{ deb_dest }}"
-        validate_certs: no
-      when: ansible_os_family == 'Debian'
+- name: Clean up .deb file
+  ansible.builtin.file:
+    path: "{{ sublime_text_3_urls.deb_dest }}"
+    state: absent
+  when: ansible_os_family == 'Debian'
 
-    - name: Install Sublime Text 3 from local .deb file
-      ansible.builtin.apt:
-        deb: "{{ deb_dest }}"
-        state: present
-      when: ansible_os_family == 'Debian'
+# --------------------------------------------------------------------------
+# 2. REDHAT / FEDORA PATH (Installs .rpm file)
+# --------------------------------------------------------------------------
+- name: Download .rpm package (RedHat/Fedora)
+  ansible.builtin.get_url:
+    url: "{{ sublime_text_3_urls.rpm_url }}"
+    dest: "{{ sublime_text_3_urls.rpm_dest }}"
+    validate_certs: no
+  when: ansible_os_family == 'RedHat'
 
-    - name: Clean up .deb file
-      ansible.builtin.file:
-        path: "{{ deb_dest }}"
-        state: absent
-      when: ansible_os_family == 'Debian'
+- name: Install Sublime Text 3 from local .rpm file
+  ansible.builtin.dnf:
+    name: "{{ sublime_text_3_urls.rpm_dest }}"
+    state: present
+  when: ansible_os_family == 'RedHat'
 
-    # --------------------------------------------------------------------------
-    # 2. REDHAT / FEDORA PATH (Installs .rpm file)
-    # --------------------------------------------------------------------------
-    - name: Download .rpm package (RedHat/Fedora)
-      ansible.builtin.get_url:
-        # Note: I've used the RPM naming convention for ST3 Build 3211 here.
-        url: "{{ rpm_url }}"
-        dest: "{{ rpm_dest }}"
-        validate_certs: no
-      when: ansible_os_family == 'RedHat'
-
-    - name: Install Sublime Text 3 from local .rpm file
-      # DNF is used here, but it intelligently falls back to YUM if needed.
-      ansible.builtin.dnf:
-        # Installing an RPM requires the full file path.
-        name: "{{ rpm_dest }}"
-        state: present
-      when: ansible_os_family == 'RedHat'
-
-    - name: Clean up .rpm file
-      ansible.builtin.file:
-        path: "{{ rpm_dest }}"
-        state: absent
-      when: ansible_os_family == 'RedHat'
+- name: Clean up .rpm file
+  ansible.builtin.file:
+    path: "{{ sublime_text_3_urls.rpm_dest }}"
+    state: absent
+  when: ansible_os_family == 'RedHat'
