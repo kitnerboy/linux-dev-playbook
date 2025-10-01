@@ -1,7 +1,7 @@
 ---
 - name: "Ensure flatpak package: spotify is installed"
-      community.general.flatpak:
-        name: org.telegram.desktop
-        state: present
-        remote: flathub
-        method: system
+  community.general.flatpak:
+    name: org.telegram.desktop
+    state: present
+    remote: flathub
+    method: system
