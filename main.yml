@@ -30,3 +30,10 @@
       loop_control:
         # Optional: Makes the output cleaner by showing the file name being included
         label: "Including {{ item | ansible.builtin.basename }}"
+
+    - name: Install packages with custom way of installing
+      ansible.builtin.include_tasks: "{{ item }}"
+      loop: "{{ lookup('ansible.builtin.fileglob', 'other_packages/*.yml', wantlist=True) }}"
+      loop_control:
+        # Optional: Makes the output cleaner by showing the file name being included
+        label: "Including {{ item | ansible.builtin.basename }}"
