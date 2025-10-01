@@ -7,15 +7,15 @@ PACKAGE_NAME="$1"
 OUTPUT_DIR="$SCRIPT_DIR"
 
 
-OUTPUT_FILE="$OUTPUT_DIR/install_${PACKAGE_NAME}.yml"
+OUTPUT_FILE="$OUTPUT_DIR/${PACKAGE_NAME}.yml"
 
 
 # Generate the content for the individual YAML file
 cat > "$OUTPUT_FILE" <<- EOL
 ---
-- name: "Ensure package: $package is installed"
+- name: "Ensure package: $PACKAGE_NAME is installed"
   ansible.builtin.package:
-    name: "$package"
+    name: "$PACKAGE_NAME"
     state: present
 EOL
 
