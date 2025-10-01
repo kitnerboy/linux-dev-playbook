@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: meld is installed"
+  ansible.builtin.package:
+    name: "meld"
+    state: present

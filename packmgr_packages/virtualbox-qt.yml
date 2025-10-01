@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: virtualbox-qt is installed"
+  ansible.builtin.package:
+    name: "virtualbox-qt"
+    state: present

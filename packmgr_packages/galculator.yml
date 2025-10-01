@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: galculator is installed"
+  ansible.builtin.package:
+    name: "galculator"
+    state: present

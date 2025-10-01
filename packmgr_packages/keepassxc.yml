@@ -1,0 +1,5 @@
+---
+- name: "Ensure package: keepassxc is installed"
+  ansible.builtin.package:
+    name: "keepassxc"
+    state: present
