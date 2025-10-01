@@ -11,3 +11,22 @@
         # Optional: Makes the output cleaner by showing the file name being included
         label: "Including {{ item | ansible.builtin.basename }}"
 
+    # Check whether flatpak is installed
+    - name: Ensure 'flatpak' package manager is installed
+      ansible.builtin.package:
+        name: flatpak
+        state: present
+
+    - name: Add the Flathub remote repository (system-wide)
+      community.general.flatpak_remote:
+        name: flathub
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+        state: present
+        method: system
+
+    - name: Install packages from flatpak_packages directory with flatpak
+      ansible.builtin.include_tasks: "{{ item }}"
+      loop: "{{ lookup('ansible.builtin.fileglob', 'flatpak_packages/*.yml', wantlist=True) }}"
+      loop_control:
+        # Optional: Makes the output cleaner by showing the file name being included
+        label: "Including {{ item | ansible.builtin.basename }}"
